@@ -61,6 +61,7 @@ public class LL1 {
     }
     private static void printAnalyzeProcessTable(Scanner in)
     {
+        System.out.println("请您输入该文法橘子谢谢：");
         int index = 0;
         String inputString = in.next();
         Stack<String> stack = new Stack<>();
@@ -582,7 +583,7 @@ public class LL1 {
     }
     private static void scanner(Scanner in)
     {
-
+        System.out.println("请输入产生式谢谢：（end表示结束）");
         String production;
         while(true){
             production = in.next();
