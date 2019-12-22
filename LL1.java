@@ -2,6 +2,13 @@
 import java.util.*;
 
 /**
+ * 这次代码最大的收获是让我意识到了写注释的重要性
+ * 这次代码最大的收获是让我意识到了写注释的重要性
+ * 这次代码最大的收获是让我意识到了写注释的重要性
+ * 莫得注释的代码让我口区
+ * 莫得注释的代码让我口区
+ * 莫得注释的代码让我口区
+ * @date 19-12-22 - 下午9:51
  * @author galaxy
  * @date 19-11-20 - 下午9:15
  */
@@ -38,11 +45,15 @@ public class LL1 {
         generateSymbol(head);
         generateTable(head);
         printFF();
+        printAnalyzePredictionTable();
         printAnalyzeProcessTable(in);
 
     }
 
 
+    /**
+     * 通过判断非终结符的First和Follow集是否有交集判断是否为LL(1)文法
+     */
     private static void isLL1()
     {
         for (String start:
@@ -59,19 +70,24 @@ public class LL1 {
         }
         System.out.println("该文法是LL(1)文法");
     }
+
+    /**
+     * 打印分析表
+     * @param in 全局Scanner实例
+     */
     private static void printAnalyzeProcessTable(Scanner in)
     {
-        System.out.println("请您输入该文法橘子谢谢：");
+        System.out.println("请您输入该文法句子谢谢：");
         int index = 0;
         String inputString = in.next();
         Stack<String> stack = new Stack<>();
         Stack<String> utilStack = new Stack<>();
         stack.push("#");
         stack.push(head.start);
-        System.out.println("符号栈\t输入串串\t所用产生式神");
+        System.out.println("符号栈\t\t输入串\t\t所用产生式");
         while (!END.equals(stack.peek())){
             System.out.print(stack.toString());
-            System.out.print("\t"+inputString.substring(index));
+            System.out.printf("%10s" , inputString.substring(index));
             Set<String> productions = table.get(stack.peek()).get(String.valueOf(inputString.charAt(index)));
             if (!productions.isEmpty()){
                 for (String production:
@@ -107,6 +123,10 @@ public class LL1 {
         }
         System.out.print(stack.peek()+"\t"+inputString.substring(index+1));
     }
+
+    /**
+     * 打印分析预测表
+     */
     private static void printAnalyzePredictionTable()
     {
         for (String symbol:
@@ -119,11 +139,19 @@ public class LL1 {
             System.out.print(start);
             for (String symbol:
                  symbols) {
+                if (table.get(start).get(symbol)==null){
+                    System.out.print("ERR");
+                }
                 System.out.print("\t"+table.get(start).get(symbol));
             }
             System.out.println();
         }
     }
+
+    /**
+     * 获取所有的终结符
+     * @param first 存储所有非终结符的First集，结构：Map<String,Set>。其中String为非终结符，Set为First集
+     */
     private static void generateSymbol(Node first)
     {
         int flag = 0;
@@ -193,6 +221,10 @@ public class LL1 {
             flag = 1;
         }
     }
+
+    /**
+     * 消除Follow集的空格
+     */
     private static void delFollowBlank()
     {
         for (String start:
@@ -205,6 +237,11 @@ public class LL1 {
             }
         }
     }
+
+    /**
+     * 获取Follow集妈的以后代码不写注释我是狗这代码谁能看回去打游戏了艹
+     * @param first 链表头节点
+     */
     private static void getFollow(Node first)
     {
         int flag;
@@ -253,6 +290,10 @@ public class LL1 {
             }
         }
     }
+
+    /**
+     * 通过递归实现完成对所有需要但暂时没有的Follow集合的添加
+     */
     private static void dealNeedButNon()
     {
         for (String start:
@@ -322,6 +363,11 @@ public class LL1 {
             }
         }
     }
+
+    /**
+     * 构造First集
+     * @param last 链表尾节点，因为构造是从最后一个节点开始的，这样好像就避免了需要但不存在的First集的情况出现
+     */
     private static void getFirst(Node last)
     {
         int flag = 0;
@@ -405,6 +451,11 @@ public class LL1 {
             }
         }
     }
+
+    /**
+     * 打印节点
+     * @param node 链表头结点
+     */
     private static void printNode(Node node)
     {
         int flag = 0;
@@ -426,6 +477,10 @@ public class LL1 {
             }
         }
     }
+
+    /**
+     * 打印First和Follow集合
+     */
     private static void printFF()
     {
         for (String start:
@@ -436,11 +491,21 @@ public class LL1 {
             System.out.println(follows.get(start));
         }
     }
+
+    /**
+     * 在消除间接递归时
+     * @param node
+     */
     private static void delNode(Node node)
     {
         node.pre.next = node.next;
         node.next.pre = node.pre;
     }
+
+    /**
+     * 检测是否含有左递归并调用相应函数进行消除
+     * @param last 链表尾节点，检测从尾至头进行
+     */
     private static void delRecursive(Node last)
     {
         int flag = 0;
@@ -466,6 +531,11 @@ public class LL1 {
             flag=1;
         }
     }
+
+    /**
+     * 消除间接递归
+     * @param node
+     */
     private static void indirect(Node node)
     {
         while (!node.start.equals(aim)){
@@ -492,6 +562,13 @@ public class LL1 {
         direct(node,index);
 
     }
+
+    /**
+     * 找到字符在串中的下标并返回，没有则返回-1
+     * @param str 字符串
+     * @param ch 要定位的字符
+     * @return 下标，-1为未找到
+     */
     private static int findIndex(String str,char ch)
     {
         for (int i = 0; i < str.length(); i++) {
@@ -501,6 +578,12 @@ public class LL1 {
         }
         return -1;
     }
+
+    /**
+     *
+     * @param node
+     * @param child
+     */
     private static void childReplace(Node node,String child)
     {
         ArrayList<String> strings = null;
@@ -524,6 +607,12 @@ public class LL1 {
         }
 
     }
+
+    /**
+     * 处理直接递归，方法见教材
+     * @param node 链表中的节点
+     * @param index 产生直接递归的产生式的下标
+     */
     private static void direct(Node node,int index)
     {
         Node tmp = new Node();
@@ -541,6 +630,12 @@ public class LL1 {
             node.productions.add(str+node.start+"'");
         }
     }
+
+    /**
+     * 将node节点中的产生式集合中除了下标为index的存入到childs集合中
+     * @param node 链表中的一个节点
+     * @param index 下标，代表某个非终结符的产生式集合中的第几个产生式
+     */
     private static void getChild(Node node,int index)
     {
         childs.clear();
@@ -550,6 +645,10 @@ public class LL1 {
             }
         }
     }
+
+    /**
+     * 分析input集合，将每条产生式分解成非终结符和产生式，并构造链表将其存入
+     */
     private static void analyze()
     {
         int number = 0;
@@ -581,6 +680,11 @@ public class LL1 {
         head.pre = node;
         node.next = head;
     }
+
+    /**
+     * 接受产生式将其存到input集合
+     * @param in 全局Scanner实例，用来接收输入
+     */
     private static void scanner(Scanner in)
     {
         System.out.println("请输入产生式谢谢：（end表示结束）");
@@ -593,6 +697,10 @@ public class LL1 {
             input.add(production);
         }
     }
+
+    /**
+     * 用来描述非终结符的类，通过两个指针变量可以构造链表，number记录节点顺序，productions保存非终结符的产生式
+     */
     static class Node{
         String start = null;
         ArrayList<String> productions = new ArrayList<>();
