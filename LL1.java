@@ -239,7 +239,7 @@ public class LL1 {
     }
 
     /**
-     * 获取Follow集妈的以后代码不写注释我是狗这代码谁能看回去打游戏了艹
+     * 获取Follow集**以后代码不写注释我是*这代码谁能看回去打游戏了*
      * @param first 链表头节点
      */
     private static void getFollow(Node first)
